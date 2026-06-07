@@ -96,7 +96,22 @@ body{background:var(--dark);font-family:'Raleway',sans-serif;overflow-x:hidden}
 <audio id="bg-music" loop preload="none">
   <source src="Akheeran.mp3" type="audio/mpeg">
 </audio>
+<script>
+    // مصفوفة الأحداث التي تعني أن المستخدم تفاعل مع الصفحة
+    const interactions = ['click', 'touchstart', 'scroll', 'keydown'];
+    
+    function startAudio() {
+        const audio = document.getElementById('bg-music');
+        // السيرفر يحتاج أمر صريح بالتشغيل بعد التفاعل
+        audio.play().then(() => {
+            // حذف المستمعين بعد نجاح التشغيل
+            interactions.forEach(e => document.removeEventListener(e, startAudio));
+        }).catch(err => console.log("بانتظار تفاعل حقيقي للمستخدم..."));
+    }
 
+    // ربط الأحداث بالدالة
+    interactions.forEach(e => document.addEventListener(e, startAudio, { passive: true }));
+</script>
 <div id="music-player">
   <button id="music-btn" onclick="toggleMusic()">&#9834;</button>
 </div>
